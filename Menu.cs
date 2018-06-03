@@ -13,67 +13,78 @@ namespace WindowsApplication2
         {
             InitializeComponent();
         }
-        List<double> Xvalues;
-        List<double> Yvalues;
+        public List<double> X_Values;
+        public List<double> Y_Values;
+
+        public List<double> XValues
+        {
+            get
+            {
+                return this.X_Values;
+            }
+            set
+            {
+                this.X_Values = value;
+            }
+        }
+        public List<double> YValues
+        {
+            get
+            {
+                return this.Y_Values;
+            }
+            set
+            {
+                this.Y_Values = value;
+            }
+        }
+
         private void Menu_Load(object sender, EventArgs e)
         {
-            Xvalues = new List<double>();
-            Yvalues = new List<double>();
+            XValues = new List<double>();
+            YValues = new List<double>();
         }
         void ShowValuesX()
         {
             lbxValues.Items.Clear();
 
-            for (int i = 0; i < Xvalues.Count; i++)
-                lbxValues.Items.Add(Xvalues[i]);
+            for (int i = 0; i < XValues.Count; i++)
+                lbxValues.Items.Add(XValues[i]);
         }
         void ShowValuesY()
         {
             lbyValues.Items.Clear();
 
-            for (int i = 0; i < Yvalues.Count; i++)
-                lbyValues.Items.Add(Yvalues[i]);
+            for (int i = 0; i < YValues.Count; i++)
+                lbyValues.Items.Add(YValues[i]);
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            RegressionLine frm1 = new RegressionLine(Xvalues,Yvalues);
+            RegressionLine regressionLine = new RegressionLine(XValues, YValues);
             {
-                frm1.Show();
+                regressionLine.Show();
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Histograms frm2 = new Histograms(Xvalues);
+            Histograms histograms = new Histograms(XValues);
             {
-                frm2.Show();
+                histograms.Show();
             }
         }
         //STATISTIC
         private void button3_Click(object sender, EventArgs e)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            //
-            stringBuilder.Append("Математичне очікування дорівнює : " + MathExpectation(Xvalues));
-            stringBuilder.Append("\n\nДисперсия : " + Variance(Xvalues));
-            stringBuilder.Append("\n\nСереднє квадратичне відхилення : " + Deviation(Xvalues));
-            stringBuilder.Append("\n\nМода : "+Mode(Xvalues).ToString("0.000#"));
-            stringBuilder.Append("\n\nВерхня інтервальна межа : " + UpperBound(Xvalues) + "\nНижня інтервальна межа : "+LowerBound(Xvalues));
-            stringBuilder.Append("\n\nКоефіцієнт Асиметрії : " + AssymetryCoef(Xvalues));
-            stringBuilder.Append("\n\nКоефіцієнт Ексцессу : " + ExcessCoef(Xvalues));
-            stringBuilder.Append("\n\nЗакон розподілу за коефіцієнтом Асиметрії : " + AsymetryLaw(Xvalues) + "\n\nЗакон розподілу за коефіцієнтом Ексцессу : " + ExcessLaw(Xvalues));
-            //stringBuilder.Append("\n-----------------------------------------------------------------\n");
-            //stringBuilder.Append("\nАномальні значення виборки : "+AnomalyNums(Xvalues,Yvalues)+"\n");
-            //stringBuilder.Append("\n-----------------------------------------------------------------");
-            //stringBuilder.Append("\n\nНове Математичне очікування дорівнює : " + MathExpectation(Xvalues));
-            //stringBuilder.Append("\n\nНова Дисперсия : " + Variance(Xvalues));
-            //stringBuilder.Append("\n\nНове Середнє квадратичне відхилення : " + Deviation(Xvalues));
-            //stringBuilder.Append("\n\nНова Мода : " + Mode(Xvalues));
-            //stringBuilder.Append("\n\nВерхня інтервальна межа : " + UpperBound(Xvalues) + "\nНижня інтервальна межа : " + LowerBound(Xvalues)); //OPTIONAL - скорее всего надо будет удалить это
-            //stringBuilder.Append("\n\nКоефіцієнт Асиметрії : " + AssymetryCoef(Xvalues));
-            //stringBuilder.Append("\n\nКоефіцієнт Ексцессу : " + ExcessCoef(Xvalues));
-            //stringBuilder.Append("\n\nЗакон розподілу за коефіцієнтом Асиметрії : " + AsymetryLaw(Xvalues) + "\n\nЗакон розподілу за коефіцієнтом Ексцессу : " + ExcessLaw(Xvalues));
-            //
+            stringBuilder.Append("Математичне очікування дорівнює : " + MathExpectation(XValues));
+            stringBuilder.Append("\n\nДисперсия : " + Variance(XValues));
+            stringBuilder.Append("\n\nСереднє квадратичне відхилення : " + Deviation(XValues));
+            stringBuilder.Append("\n\nМода : " + Mode(XValues).ToString("0.000#"));
+            stringBuilder.Append("\n\nВерхня інтервальна межа : " + UpperBound(XValues) + "\nНижня інтервальна межа : " + LowerBound(XValues));
+            stringBuilder.Append("\n\nКоефіцієнт Асиметрії : " + AssymetryCoef(XValues));
+            stringBuilder.Append("\n\nКоефіцієнт Ексцессу : " + ExcessCoef(XValues));
+            stringBuilder.Append("\n\nЗакон розподілу за коефіцієнтом Асиметрії : " + AsymetryLaw(XValues) + "\n\nЗакон розподілу за коефіцієнтом Ексцессу : " + ExcessLaw(XValues));
             MessageBox.Show(stringBuilder.ToString());
         }
         //VARIANCE
@@ -96,7 +107,7 @@ namespace WindowsApplication2
             {
                 sum += x;
             }
-          return result = sum / inputValues.Count;
+            return result = sum / inputValues.Count;
         }
         //DEVIATION
         double Deviation(List<double> inputValues)
@@ -115,8 +126,7 @@ namespace WindowsApplication2
                 centralMoment += (Math.Pow((inputValues[i] - mean), 3));
             }
             //
-            double u3 = centralMoment ;
-            return u3/((Math.Pow(Deviation(inputValues),3))*inputValues.Count);
+            return centralMoment / ((Math.Pow(Deviation(inputValues), 3)) * inputValues.Count);
         }
         //EXCESS
         double ExcessCoef(List<double> inputValues)
@@ -130,23 +140,23 @@ namespace WindowsApplication2
             }
             //
             double u4 = centralMoment;
-            return ((u4 / ((Math.Pow(Deviation(inputValues), 4))* inputValues.Count))-3);
+            return ((u4 / ((Math.Pow(Deviation(inputValues), 4)) * inputValues.Count)) - 3);
         }
         //ANOMALY_NUMS
-        string AnomalyNums(List<double> inputValuesX,List<double> inputValuesY)
+        string AnomalyNums(List<double> inputValuesX, List<double> inputValuesY)
         {
             string anomalyNums = null;
-            double anomalyCoef = 1.96; 
+            double anomalyCoef = 1.96;
             //
             foreach (double x in inputValuesX.ToArray())
             {
-                if( (Math.Abs(x-MathExpectation(inputValuesX))/Deviation(inputValuesX)) > anomalyCoef )
+                if ((Math.Abs(x - MathExpectation(inputValuesX)) / Deviation(inputValuesX)) > anomalyCoef)
                 {
-                    anomalyNums += " "+x.ToString()+",";
+                    anomalyNums += " " + x.ToString() + ",";
                     inputValuesX.Remove(x);
                     inputValuesY.Remove(x);
                     //rec
-                    AnomalyNums(inputValuesX,inputValuesY);
+                    AnomalyNums(inputValuesX, inputValuesY);
                 }
 
             }
@@ -154,7 +164,7 @@ namespace WindowsApplication2
             return anomalyNums;
         }
         //MODE
-        double Mode (List<double> inputValues)
+        double Mode(List<double> inputValues)
         {
             var groups = inputValues.GroupBy(v => v);
             double maxCount = groups.Max(g => g.Count());
@@ -167,7 +177,7 @@ namespace WindowsApplication2
         {
             double anomalyCoef = 1.96;
             double upperbound = (anomalyCoef * Deviation(inputValues)) / Math.Sqrt(inputValues.Count);
-            return MathExpectation(inputValues)+ upperbound;
+            return MathExpectation(inputValues) + upperbound;
         }
         //LOWER_BOUND
         double LowerBound(List<double> inputValues)
@@ -180,7 +190,7 @@ namespace WindowsApplication2
         string AsymetryLaw(List<double> inputValues)
         {
             string result = null;
-            if(AssymetryCoef(inputValues)>0)
+            if (AssymetryCoef(inputValues) > 0)
             {
                 result = "Мода знаходиться лівіше за середнє значення, а отже діаграма право-випадна";
             }
@@ -194,7 +204,7 @@ namespace WindowsApplication2
         string ExcessLaw(List<double> inputValues)
         {
             string result = null;
-            if(ExcessCoef(inputValues)>0)
+            if (ExcessCoef(inputValues) > 0)
             {
                 result = "Крива розподілення островершинна";
             }
@@ -225,7 +235,7 @@ namespace WindowsApplication2
                 foreach (string x in subStrings)
                 {
                     value = double.Parse(x, CultureInfo.InvariantCulture);
-                    Xvalues.Add(value);
+                    XValues.Add(value);
                 }
                 ShowValuesX();
                 txtValue.Text = "";
@@ -233,15 +243,14 @@ namespace WindowsApplication2
             }
             catch (FormatException)
             {
-                MessageBox.Show("The value you entered is invalid.",
-                                "Warning!");
+                MessageBox.Show("The value you entered is invalid.", "Warning!");
             }
 
         }
         private void AddY_Click(object sender, EventArgs e)
         {
             // This the value that will be added to the text box
-            double value ;
+            double value;
             // Check that the user entered a value in the text box
             if (txtValue.Text.Length == 0)
             {
@@ -255,7 +264,7 @@ namespace WindowsApplication2
                 foreach (string x in subStrings)
                 {
                     value = double.Parse(x, CultureInfo.InvariantCulture);
-                    Yvalues.Add(value);
+                    YValues.Add(value);
                 }
                 ShowValuesY();
                 txtValue.Text = "";
@@ -264,74 +273,57 @@ namespace WindowsApplication2
 
             catch (FormatException)
             {
-                MessageBox.Show("The value you entered is invalid.",
-                                "Warning!");
+                MessageBox.Show("The value you entered is invalid.", "Warning!");
             }
         }
 
-        private void lbyValues_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
+        private void lbyValues_SelectedIndexChanged(object sender, EventArgs e) { }
         private void ClearY_Click(object sender, EventArgs e)
         {
             lbyValues.Items.Clear();
-            Yvalues.Clear();
+            YValues.Clear();
         }
-
         private void ClearX_Click_1(object sender, EventArgs e)
         {
-                lbxValues.Items.Clear();
-            Xvalues.Clear();
+            lbxValues.Items.Clear();
+            XValues.Clear();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             StringBuilder stringBuilder = new StringBuilder();
             //
-            stringBuilder.Append("Математичне очікування дорівнює : " + MathExpectation(Yvalues));
-            stringBuilder.Append("\n\nДисперсия : " + Variance(Yvalues));
-            stringBuilder.Append("\n\nСереднє квадратичне відхилення : " + Deviation(Yvalues));
-            stringBuilder.Append("\n\nМода : " + Mode(Yvalues).ToString("0.000#"));
-            stringBuilder.Append("\n\nВерхня інтервальна межа : " + UpperBound(Yvalues) + "\nНижня інтервальна межа : " + LowerBound(Yvalues));
-            stringBuilder.Append("\n\nКоефіцієнт Асиметрії : " + AssymetryCoef(Yvalues));
-            stringBuilder.Append("\n\nКоефіцієнт Ексцессу : " + ExcessCoef(Yvalues));
-            stringBuilder.Append("\n\nЗакон розподілу за коефіцієнтом Асиметрії : " + AsymetryLaw(Yvalues) + "\n\nЗакон розподілу за коефіцієнтом Ексцессу : " + ExcessLaw(Yvalues));
-            //stringBuilder.Append("\n-----------------------------------------------------------------\n");
-            //stringBuilder.Append("\n\nНове Математичне очікування дорівнює : " + MathExpectation(Yvalues));
-            //stringBuilder.Append("\n\nНова Дисперсия : " + Variance(Yvalues));
-            //stringBuilder.Append("\n\nНове Середнє квадратичне відхилення : " + Deviation(Yvalues));
-            //stringBuilder.Append("\n\nНова Мода : " + Mode(Yvalues));
-            //stringBuilder.Append("\n\nВерхня інтервальна межа : " + UpperBound(Yvalues) + "\nНижня інтервальна межа : " + LowerBound(Yvalues)); //OPTIONAL - скорее всего надо будет удалить это
-            //stringBuilder.Append("\n\nКоефіцієнт Асиметрії : " + AssymetryCoef(Yvalues));
-            //stringBuilder.Append("\n\nКоефіцієнт Ексцессу : " + ExcessCoef(Yvalues));
-            //stringBuilder.Append("\n\nЗакон розподілу за коефіцієнтом Асиметрії : " + AsymetryLaw(Yvalues) + "\n\nЗакон розподілу за коефіцієнтом Ексцессу : " + ExcessLaw(Yvalues));
-            //
+            stringBuilder.Append("Математичне очікування дорівнює : " + MathExpectation(YValues));
+            stringBuilder.Append("\n\nДисперсия : " + Variance(YValues));
+            stringBuilder.Append("\n\nСереднє квадратичне відхилення : " + Deviation(YValues));
+            stringBuilder.Append("\n\nМода : " + Mode(YValues).ToString("0.000#"));
+            stringBuilder.Append("\n\nВерхня інтервальна межа : " + UpperBound(YValues) + "\nНижня інтервальна межа : " + LowerBound(YValues));
+            stringBuilder.Append("\n\nКоефіцієнт Асиметрії : " + AssymetryCoef(YValues));
+            stringBuilder.Append("\n\nКоефіцієнт Ексцессу : " + ExcessCoef(YValues));
+            stringBuilder.Append("\n\nЗакон розподілу за коефіцієнтом Асиметрії : " + AsymetryLaw(YValues) + "\n\nЗакон розподілу за коефіцієнтом Ексцессу : " + ExcessLaw(YValues));
             MessageBox.Show(stringBuilder.ToString());
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Histograms frm2 = new Histograms(Yvalues);
-            
-                frm2.Show();
-            
+            Histograms frm2 = new Histograms(YValues);
+
+            frm2.Show();
+
         }
 
         private void Normal_Click(object sender, EventArgs e)
         {
-            double[] X = new double[Xvalues.Count];
-            double[] Y = new double[Yvalues.Count];
+            double[] X = new double[XValues.Count];
+            double[] Y = new double[YValues.Count];
             //
-            for (int i = 0; i < Xvalues.Count; i++)
+            for (int i = 0; i < XValues.Count; i++)
             {
-                X[i] = Xvalues[i];
+                X[i] = XValues[i];
             }
-            for (int i = 0; i < Yvalues.Count; i++)
+            for (int i = 0; i < YValues.Count; i++)
             {
-                Y[i] = Yvalues[i];
+                Y[i] = YValues[i];
             }
             LinearCorrelationCoefficient example = new LinearCorrelationCoefficient(X, Y);
             example.Show();
@@ -339,8 +331,8 @@ namespace WindowsApplication2
 
         private void button7_Click(object sender, EventArgs e)
         {
-          
-            KendalCorrelationCoefficient example = new KendalCorrelationCoefficient(Xvalues, Yvalues);
+
+            KendalCorrelationCoefficient example = new KendalCorrelationCoefficient(XValues, YValues);
             example.Show();
         }
 
@@ -348,7 +340,7 @@ namespace WindowsApplication2
         {
             StringBuilder stringBuilder = new StringBuilder();
             //
-            stringBuilder.Append("\nАномальні значення виборки : " + AnomalyNums(Yvalues, Xvalues) + "\n");
+            stringBuilder.Append("\nАномальні значення виборки : " + AnomalyNums(YValues, XValues) + "\n");
             //
             MessageBox.Show(stringBuilder.ToString());
         }
@@ -357,7 +349,7 @@ namespace WindowsApplication2
         {
             StringBuilder stringBuilder = new StringBuilder();
             //
-            stringBuilder.Append("\nАномальні значення виборки : " + AnomalyNums(Xvalues, Yvalues) + "\n");
+            stringBuilder.Append("\nАномальні значення виборки : " + AnomalyNums(XValues, YValues) + "\n");
             //
             MessageBox.Show(stringBuilder.ToString());
         }
