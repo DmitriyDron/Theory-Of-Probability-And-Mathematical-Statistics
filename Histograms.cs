@@ -94,5 +94,10 @@ namespace WindowsApplication2
             zedGraph.Invalidate();
 
         }
+
+        private void Histograms_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

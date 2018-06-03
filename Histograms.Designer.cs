@@ -32,13 +32,14 @@
             // 
             // Histograms
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(932, 677);
             this.Font = new System.Drawing.Font("Segoe UI", 10.2F);
             this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "Histograms";
             this.Text = "Гістограма";
+            this.Load += new System.EventHandler(this.Histograms_Load);
             this.ResumeLayout(false);
 
         }
