@@ -9,13 +9,32 @@ using System.Collections.Generic;
 
 namespace WindowsApplication2
 {
-    public partial class Histograms : Form
+public partial class Histograms : Form
     {
-        private ZedGraphControl zedGraph;
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        List<double> ValuesConstruct;
+        private ZedGraphControl ZedGraphControl;
+        private List<double> Values_Construct;
+        public ZedGraphControl ZedGraph
+        {
+            get
+            {
+                return this.ZedGraphControl;
+            }
+            set
+            {
+                ZedGraphControl = value;
+            }
+        }
+        public List<double> ValuesConstruct
+        {
+            get
+            {
+                return this.Values_Construct;
+            }
+            set
+            {
+                Values_Construct = value;
+            }
+        }
 
         public Histograms(List<double> inputValues)
         {
@@ -23,31 +42,28 @@ namespace WindowsApplication2
             ValuesConstruct = inputValues;
         }
         #region Windows Form Designer generated code
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>1
+        
         private void InitializeComponent1()
         {
-            this.zedGraph = new ZedGraph.ZedGraphControl();
+            this.ZedGraph = new ZedGraphControl();
             this.SuspendLayout();
             // 
             // zedGraphControl1
             // 
-            this.zedGraph.Location = new System.Drawing.Point(0, 0);
-            this.zedGraph.Name = "zedGraphControl1";
-            this.zedGraph.Size = new System.Drawing.Size(680, 414);
-            this.zedGraph.TabIndex = 0;
+            this.ZedGraph.Location = new Point(0, 0);
+            this.ZedGraph.Name = "zedGraphControl1";
+            this.ZedGraph.Size = new Size(680, 414);
+            this.ZedGraph.TabIndex = 0;
             // 
             // Form1
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(680, 414);
-            this.Controls.Add(this.zedGraph);
+            this.AutoScaleBaseSize = new Size(5, 13);
+            this.ClientSize = new Size(680, 414);
+            this.Controls.Add(this.ZedGraph);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
-            this.Load += new System.EventHandler(Form1_Load);
+            this.Load += new EventHandler(Form1_Load);
 
         }
         #endregion
@@ -55,12 +71,12 @@ namespace WindowsApplication2
         private void Form1_Load(object sender, EventArgs e)
         {
             //Получим панель для рисования
-            GraphPane pane = zedGraph.GraphPane;
+            GraphPane pane = ZedGraph.GraphPane;
             // Очистим список кривых
             pane.CurveList.Clear();
-            int itemscount = 5;
+            int items_count = 5;
             // Подписи под столбиками
-            string[] names = new string[itemscount];
+            string[] names = new string[items_count];
             // Высота столбиков
             //X
             double[] values = new double[ValuesConstruct.Count];
@@ -69,7 +85,7 @@ namespace WindowsApplication2
                 values[i] = ValuesConstruct[i];
             }
             // Заполним данные
-            for (int i = 0; i < itemscount; i++)
+            for (int i = 0; i < items_count; i++)
             {
                 names[i] = string.Format("Значение {0}", i);
             }
@@ -88,11 +104,12 @@ namespace WindowsApplication2
             pane.XAxis.Scale.TextLabels = names;
 
             // Вызываем метод AxisChange (), чтобы обновить данные об осях. 
-            zedGraph.AxisChange();
-            zedGraph.IsShowPointValues = true;
+            ZedGraph.AxisChange();
+            ZedGraph.IsShowPointValues = true;
             // Обновляем график
-            zedGraph.Invalidate();
+            ZedGraph.Invalidate();
 
         }
+        private void Histograms_Load(object sender, EventArgs e) { }
     }
 }
