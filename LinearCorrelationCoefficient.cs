@@ -10,14 +10,58 @@ using System.Windows.Forms;
 
 namespace WindowsApplication2
 {
-    public partial class LinearCorrelationCoefficient : Form
+   public partial class LinearCorrelationCoefficient : Form
     {
-        List<SamplePair> pairs;
-        //
-        double[] X;
-        double[] Y;
-        //
-        SamplePair[] pairSS;
+
+        private double[] X_Value;
+        private double[] Y_Value;
+        private List<SamplePair> _Pairs;
+        private SamplePair[] _samplePair;
+        public double [] X
+        {
+            get
+            {
+                return this.X_Value;
+            }
+            set
+            {
+                this.X_Value = value;
+            }
+        }
+        public double [] Y
+        {
+            get
+            {
+                return this.Y_Value;
+            }
+            set
+            {
+                this.Y_Value = value;
+            }
+        }
+        public List<SamplePair> Pairs
+        {
+            get
+            {
+                return this._Pairs;
+            }
+            set
+            {
+                this._Pairs = value;
+            }
+        }
+        public SamplePair[] samplePair
+        {
+            get
+            {
+                return this._samplePair;
+            }
+            set
+            {
+                this._samplePair = value;
+            }
+        }
+
         //
         public LinearCorrelationCoefficient(double[] Xvalues, double[] Yvalues)
         {
@@ -37,17 +81,17 @@ namespace WindowsApplication2
                 Y[i] = Yvalues[i];
             }
             //
-            pairSS = new SamplePair[Xvalues.Length];
+            samplePair = new SamplePair[Xvalues.Length];
             //
             for (int i = 0; i < Xvalues.Length; i++)
             {
-                pairSS[i] = new SamplePair(X[i], Y[i]);
+                samplePair[i] = new SamplePair(X[i], Y[i]);
             }
         }
         //
         private void LinearCorrelationCoefficient_Load(object sender, EventArgs e)
         {
-            pairs = new List<SamplePair>();
+            Pairs = new List<SamplePair>();
             ShowPairs();
         }
         private void ShowPairs()
@@ -59,7 +103,7 @@ namespace WindowsApplication2
                    SumXY = 0.00;
 
             int i = 0;
-            foreach (SamplePair sp in pairSS)
+            foreach (SamplePair sp in samplePair)
             {
                 ListViewItem lviPair = new ListViewItem((i + 1).ToString());
 
@@ -73,7 +117,7 @@ namespace WindowsApplication2
                 i++;
             }
 
-            foreach (SamplePair sp in pairSS)
+            foreach (SamplePair sp in samplePair)
             {
                 SumX += sp.x;
                 SumY += sp.y;
@@ -83,33 +127,20 @@ namespace WindowsApplication2
             }
 
             ListViewItem lviTotals = new ListViewItem("Totals");
-            lviTotals.SubItems.Add("Σx = " + SumX.ToString("F"));
-            lviTotals.SubItems.Add("Σy = " + SumY.ToString("F"));
-            lviTotals.SubItems.Add("Σx² = " + SumXSquare.ToString("0.0000#"));
-            lviTotals.SubItems.Add("Σy² = " + SumYSquare.ToString("0.0000#"));
-            lviTotals.SubItems.Add("Σxy = " + SumXY.ToString("0.0000#"));
+            lviTotals.SubItems.Add("?x = " + SumX.ToString("F"));
+            lviTotals.SubItems.Add("?y = " + SumY.ToString("F"));
+            lviTotals.SubItems.Add("?x? = " + SumXSquare.ToString("0.0000#"));
+            lviTotals.SubItems.Add("?y? = " + SumYSquare.ToString("0.0000#"));
+            lviTotals.SubItems.Add("?xy = " + SumXY.ToString("0.0000#"));
             lvwValues.Items.Add(lviTotals);
         }
 
-
-
-  
-
-        private void btnCalculate_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnClear_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
+        private void btnCalculate_Click_1(object sender, EventArgs e) { }
+        private void btnClear_Click_1(object sender, EventArgs e) { }
         private void button2_Click(object sender, EventArgs e)
         {
             Close();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             ShowPairs();
@@ -121,7 +152,7 @@ namespace WindowsApplication2
                 SumXSquare = 0.00, SumYSquare = 0.00,
                 SumXY = 0.00, r = 0.00;
 
-            foreach (SamplePair sp in pairSS)
+            foreach (SamplePair sp in samplePair)
             {
                 SumX += sp.x;
                 SumY += sp.y;
@@ -130,14 +161,14 @@ namespace WindowsApplication2
                 SumXY += (sp.x * sp.y);
             }
 
-            double NTimesSumXY = pairSS.Length * SumXY;
+            double NTimesSumXY = samplePair.Length * SumXY;
             double SumXTimesSumY = SumX * SumY;
-            double SquareRoot1 = pairSS.Length * SumXSquare - Math.Pow(SumX, 2);
-            double SquareRoot2 = pairSS.Length * SumYSquare - Math.Pow(SumY, 2);
+            double SquareRoot1 = samplePair.Length * SumXSquare - Math.Pow(SumX, 2);
+            double SquareRoot2 = samplePair.Length * SumYSquare - Math.Pow(SumY, 2);
 
             r = (NTimesSumXY - SumXTimesSumY) / (Math.Sqrt(SquareRoot1) * Math.Sqrt(SquareRoot2));
 
-            txtN.Text = pairSS.Length.ToString();
+            txtN.Text = samplePair.Length.ToString();
             txtSumX.Text = SumX.ToString("F");
             txtSumY.Text = SumY.ToString("F");
             txtSumXSquare.Text = SumXSquare.ToString();
@@ -172,10 +203,7 @@ namespace WindowsApplication2
             ShowPairs();
         }
 
-        private void lvwValues_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void lvwValues_SelectedIndexChanged(object sender, EventArgs e) { }
     }
     public class SamplePair
     {
