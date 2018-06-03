@@ -12,12 +12,35 @@ namespace WindowsApplication2
 {
     public partial class StatRegression : Form
     {
-        List<double> Xvalues;
-        List<double> Yvalues;
+        private List<double> _X_Values;
+        private List<double> _Y_Values;
+        public List<double> X_Values
+        {
+            get
+            {
+                return this._X_Values;
+            }
+            set
+            {
+                this._X_Values = value;
+            }
+        }
+        public List<double> Y_Values
+        {
+            get
+            {
+                return this._Y_Values;
+            }
+            set
+            {
+                this._Y_Values = value;
+            }
+        }
+
         public StatRegression(List<double> X , List<double> Y)
         {
-            Xvalues = X;
-            Yvalues = Y;
+            X_Values = X;
+            Y_Values = Y;
             InitializeComponent();
         }
 
@@ -31,12 +54,12 @@ namespace WindowsApplication2
             double ssY = 0;
             double sumCodeviates = 0;
             double sCo = 0;
-            double count = Xvalues.Count;
+            double count = X_Values.Count;
 
-            for (int ctr = 0; ctr < Xvalues.Count; ctr++)
+            for (int ctr = 0; ctr < X_Values.Count; ctr++)
             {
-                double x = Xvalues[ctr];
-                double y = Yvalues[ctr];
+                double x = X_Values[ctr];
+                double y = Y_Values[ctr];
                 sumCodeviates += x * y;
                 sumOfX += x;
                 sumOfY += y;
@@ -58,8 +81,7 @@ namespace WindowsApplication2
             double slope = sCo / ssX;
             txtMeanX.Text = meanX.ToString("0.00#");
             txtMeanY.Text = meanY.ToString("0.00#");
-            txtDblR.Text = dblR.ToString("0.00#");
-            // txtRsquared.Text = rsquared.ToString("0.00#");
+            txtDblR.Text = dblR.ToString("0.00#");;
             txtYintercept.Text = yintercept.ToString("0.00#");
             txtSlope.Text = slope.ToString("0.00#");
             txtRoot.Text = "y=" + slope.ToString("0.00#") + "x+" + yintercept.ToString("0.00#");
